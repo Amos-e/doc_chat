@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@layer base {
+    * {
+        font-family: "Nunito", sans-serif;
+    }
+    .doc {
+        background-image: url("/static/images/doc_head.png");
+        background-size: cover;
+        background-position: 50%;
+    }
+    .dashboard {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+    }
+}
