@@ -1,0 +1,71 @@
+{% extends 'main/dashboard.html' %}
+
+{% block content %}
+<div class="px-4 py-4">
+    <div class="admin-message gap-4">
+        <div class="">
+            <h2 class="text-gray-600 text-sm font-medium">SEND MESSAGE</h2>
+            <form action="" method="POST" class="*:block *:my-3">
+                {% csrf_token %}
+                <label class="text-gray-600">Phone Number</label>
+                <input type="tel" name="phone-number" class="outline-none border border-gray-400 rounded px-3 py-2 text-gray-700 placeholder:text-sm text-[.95em] w-full" placeholder="+256702304564" disabled>
+                <label class="text-gray-600">Message</label>
+                <textarea name="message" class="border rounded border-gray-400 text-gray-700 outline-none w-full h-36 p-2"></textarea>
+                <button class="bg-blue-500 text-white px-4 py-1.5 rounded">Send</button>
+            </form>
+        </div>
+        <div class="">
+            <div class="output overflow-y-scroll p-4 flex flex-col gap-4 h-[85dvh] relative">
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        let outDiv = document.querySelector(".output");
+        let windowLocation = window.location.origin;
+        fetch(`${windowLocation}/api/messages/`,
+            ).then((response)=>{
+                return response.json();
+            }).then((data)=>{
+                messages = data;
+                console.log(messages)
+                for (message of messages) {
+                    let msg;
+                    if (message[2] == "+19704447813") {
+                        msg = `
+                        <div class="flex items-start gap-2.5">
+                            <div class="flex flex-col w-full max-w-[540px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl">
+                            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                <span class="text-sm font-semibold text-gray-900">user</span>
+                                <span class="text-sm font-normal text-gray-500"></span>
+                            </div>
+                            <p class="text-sm font-normal py-2.5 text-gray-900">${message[1]}</p>
+                            </div>
+                        </div>
+                        `
+                    }
+                    else {
+                        msg = `
+                        <div class="flex items-start gap-2.5">
+                            <div class="flex flex-col w-full max-w-[540px] leading-1.5 p-4 border-gray-200 bg-gray-200 rounded-e-xl rounded-es-xl">
+                            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                <span class="text-sm font-semibold text-gray-900">Dr Chat</span>
+                                <span class="text-sm font-normal text-gray-500"></span>
+                            </div>
+                            <p class="text-sm font-normal py-2.5 text-gray-900">${message[1]}</p>
+                            </div>
+                        </div>
+                        `
+                    }
+                    outDiv.innerHTML += msg;
+                    outDiv.scrollBy(0,500);
+                }
+            
+            });
+        
+</script>
+{% endblock %}

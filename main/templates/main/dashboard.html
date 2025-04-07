@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'stylesheets/output.css' %}">
+    <script src="{% static 'scripts/feather.min.js' %}"></script>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="dashboard">
+        <div id="menu" class="p-4 bg-slate-50 shadow absolute hidden h-full w-[70%] md:relative lg:relative md:w-auto lg:w-auto md:block lg:block">
+            <h2 class="font-medium text-lg pl-2 text-gray-600">Dashboard</h2>
+            <div>
+                <a href="/dashboard/" class="inline-flex items-center w-full text-sm font-semibold transition-colors text-gray-600 px-2 py-3 my-1">
+                    <i class="w-5 h-5" data-feather="home"></i>
+                    <span class="ml-4 font-bold">Home</span>
+                </a>
+                <a href="/message/" class="inline-flex items-center w-full text-sm font-semibold transition-colors text-gray-600 px-2 py-3 my-1">
+                    <i class="w-5 h-5" data-feather="message-square"></i>
+                    <span class="ml-4 font-bold">Messages</span>
+                </a>
+                <a href="/message/" class="inline-flex items-center w-full text-sm font-semibold transition-colors text-gray-600 px-2 py-3 my-1">
+                    <i class="w-5 h-5" data-feather="message-circle"></i>
+                    <span class="ml-4 font-bold">Conversations</span>
+                </a>
+                <a href="/dashboard/" class="inline-flex items-center w-full text-sm font-semibold transition-colors text-gray-600 px-2 py-3 my-1">
+                    <i class="w-5 h-5" data-feather="users"></i>
+                    <span class="ml-4 font-bold">Patients</span>
+                </a>
+                <a href="/dashboard/" class="inline-flex items-center w-full text-sm font-semibold transition-colors text-gray-600 px-2 py-3 my-1">
+                    <i class="w-5 h-5" data-feather="settings"></i>
+                    <span class="ml-4 font-bold">Settings</span>
+                </a>
+            </div>
+        </div>
+        <div>
+            <header class="py-4 px-4 bg-white shadow z-10 flex justify-between items-center">
+                <h2 class="text-sm font-semibold text-gray-700 tracking-wide">
+                    DR CHAT
+                </h2>
+                <div class="flex gap-4">
+                    <button id="open-menu"><i class="w-5 h-5 md:hidden lg:hidden" data-feather="columns"></i></button>
+                    <a href="/"><i class="w-5 h-5" data-feather="log-out"></i></a>
+                </div>
+            </header>
+            {% block content %}
+                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-6 px-4 pr-8">
+                    <div class="flex items-center bg-white p-4 rounded-lg shadow">
+                        <div class="p-3 mr-4 rounded-full bg-orange-100 text-orange-500">
+                            <i data-feather="users"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-2">PATIENTS</p>
+                            <p class="text-lg font-semibold text-gray-700">0</p>
+                        </div>
+                    </div>
+        
+                    <div class="flex items-center bg-white p-4 rounded-lg shadow">
+                        <div class="p-3 mr-4 rounded-full bg-green-100 text-green-500">
+                            <i data-feather="message-circle"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-2">CONVERSATIONS</p>
+                            <p class="text-lg font-semibold text-gray-700">0</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center bg-white p-4 rounded-lg shadow">
+                        <div class="p-3 mr-4 rounded-full bg-teal-100 text-teal-500">
+                            <i data-feather="message-square"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-2">MESSAGES</p>
+                            <p class="text-lg font-semibold text-gray-700">0</p>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+    <script>
+        let menu = document.querySelector("#menu");
+        let openMenu = document.querySelector("#open-menu");
+        openMenu.addEventListener("click", (event)=>{
+            console.log("clicked");
+            if (menu.classList.contains("hidden")) {
+                menu.classList.replace("hidden", "block");
+            } else {
+                menu.classList.replace("block", "hidden");
+            }
+        });
+        feather.replace();
+    </script>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>

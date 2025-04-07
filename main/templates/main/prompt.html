@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'stylesheets/output.css' %}">
+    <script src="{% static 'scripts/feather.min.js' %}"></script>
+    <title>Dr Chat</title>
+</head>
+<body>
+    <div class="body w-full h-[100dvh]">
+        <div class="bg-gray-200 p-5 hidden md:block lg:block">
+            <h1 class="mx-auto text-center font-semibold">DR CHAT</h1>
+            <div class="w-56 h-56 rounded-full doc mx-auto">
+            </div>
+            <div>
+                <p class="text-center py-4 welcome-text"></p>
+            </div>
+        </div>
+        <div class="content">
+            <header class="py-3.5 px-4 bg-white shadow z-10 flex justify-between items-center">
+                <h2 class="text-sm font-semibold text-gray-700 tracking-wide">
+                    ASK FOR HELP
+                </h2>
+                <div class="flex gap-4">
+                    <p>{{user.username}}</p>
+                    <a href="/accounts/logout/"><i class="w-5 h-5" data-feather="log-out"></i></a>
+                </div>
+            </header>
+            <div class="output overflow-y-scroll p-4 flex flex-col gap-4 relative">
+                <div id="sm-welcome" class="md:hidden lg:hidden w-[100%] block mt-8">
+                    <div class="w-56 h-56 rounded-full doc mx-auto">
+                    </div>
+                    <div>
+                        <p class="text-center py-4 welcome-text-2"></p>
+                    </div>
+                </div>
+            </div>
+            <form action="" method="POST" class="px-4 pt-3 w-full">
+                <div class="flex gap-2 w-full *:block">
+                    <input  class="border-slate-300 flex-1 p-3 rounded-2xl border bg-blue-50 outline-none text-slate-800" type="text" class="w-full" name="message" placeholder="Ask a question">
+                    <button class="text-white bg-blue-500 w-20 rounded-xl text-[.95em] py-3">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    let input = document.querySelector("[name=message]");
+    let submitBtn = document.querySelector("button");
+    let outDiv = document.querySelector(".output");
+    let smWelcome = document.querySelector("#sm-welcome");
+    let firstInstance = true;
+
+
+    submitBtn.addEventListener("click", (event)=>{
+        event.preventDefault();
+        if (firstInstance) {
+            smWelcome.classList.replace("block", "hidden");
+        }
+        let time = new Date();
+        let stringTime = `${time.getHours()}:${time.getMinutes()}`
+        let userPrompt = `
+            <div class="flex items-start gap-2.5 self-end">
+                <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-sm font-semibold text-gray-900">User</span>
+                    <span class="text-sm font-normal text-gray-500">${stringTime}</span>
+                </div>
+                <p class="text-sm font-normal py-2.5 text-gray-900">${input.value}</p>
+                </div>
+            </div>
+        `;
+
+        outDiv.innerHTML += userPrompt;
+
+        outDiv.scrollBy(0,500);
+
+        let windowLocation = window.location.origin;
+
+        fetch(`${windowLocation}/api/model/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: input.value
+            })
+        }).then((response)=>{
+            return response.json();
+        }).then((data)=>{
+            msg = data.response;
+            let time = new Date();
+            let stringTime = `${time.getHours()}:${time.getMinutes()}`
+            let message = `
+                <div class="flex items-start gap-2.5">
+                    <div class="flex flex-col w-full max-w-[540px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span class="text-sm font-semibold text-gray-900">Dr chat</span>
+                        <span class="text-sm font-normal text-gray-500">${stringTime}</span>
+                    </div>
+                    <p class="text-sm font-normal py-2.5 text-gray-900">${msg}</p>
+                    </div>
+                </div>
+            `
+
+            outDiv.innerHTML += message;
+            outDiv.scrollBy(0,500);
+        })
+
+    })
+
+    let welcomeCt = document.querySelector(".welcome-text");
+    let welcomeCt2 = document.querySelector(".welcome-text-2");
+    let welcomeText = "Hello, I am Dr Chat, how can I help you today?"
+    let counter = 0;
+
+    const interval = setInterval(()=>{
+        welcomeCt.innerHTML += welcomeText[counter];
+        welcomeCt2.innerHTML += welcomeText[counter];
+        counter++;
+        if (counter == welcomeText.length) {
+            clearInterval(interval);
+        }
+    }, 100);
+
+    feather.replace();
+    </script>
+</body>
+</html>

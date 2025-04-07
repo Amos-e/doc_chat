@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'stylesheets/output.css' %}">
+    <script src="{% static 'scripts/feather.min.js' %}"></script>
+    <title>Dr Chat</title>
+</head>
+<body>
+    <div class="flex items-center w-full h-[100dvh] justify-center">
+        <form action="" method="POST" class="login-form w-96 py-4 px-3 bg-white mx-2 mt-6 mb-12">
+            {% csrf_token %}
+            {{form}}
+            <div class=" flex mt-4 justify-center w-full">
+                <button class="bg-blue-500 block text-white rounded py-2 px-5">Login</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'stylesheets/output.css' %}">
+    <script src="{% static 'scripts/feather.min.js' %}"></script>
+    <title>Dr Chat</title>
+</head>
+<body>
+    <div class="w-screen h-screen flex items-center justify-center">
+        <div class="w-96 h-36 mb-12 bg-green-100 rounded-lg">
+            <h2 class="text-center text-gray-600 font-semibold p-4">DR CHAT</h2>
+            <div class="flex gap-6 justify-center mt-4 text-gray-600">
+                <a href="/prompt/" class="flex gap-2">
+                    <i class="w-5 h-5" data-feather="edit-3"></i>
+                    <span>Prompt</span>
+                </a>
+                <a href="/dashboard/" class="flex gap-2">
+                    <i class="w-5 h-5" data-feather="grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        feather.replace()
+    </script>
+</body>
+</html>
